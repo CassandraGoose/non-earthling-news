@@ -1,0 +1,28 @@
+* {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 1rem;
+}
+
+.custom-heading {
+  font-family: 'Calistoga', cursive;
+  font-size: 6rem;
+}
+
+.custom-accent {
+  font-family: 'PT Serif', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+}
+
+.custom-sub-heading {
+  font-size: 1.2rem;
+}
+
+.figure-caption {
+  font-size: 0.8rem;
+}
+
+.align-text-center {
+  text-align: center;
+  vertical-align: middle;
+}
