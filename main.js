@@ -1,14 +1,14 @@
-const getNews = async () => {
-  const response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&sortBy=publishedAt&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
+const getNews = async (sort = 'publishedAt') => {
+  const response = await fetch(`https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&sortBy=${sort}&apiKey=7488c28e0de9432cb5b471f1a27a39ac`);
   const json = await response.json();
-  const page2response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&sortBy=publishedAt&page=2&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
+  const page2response = await fetch(`https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&sortBy=${sort}&page=2&apiKey=7488c28e0de9432cb5b471f1a27a39ac`);
   const json2 = await page2response.json();
   const allArticles = [...json.articles, ...json2.articles];
   const approvedArticles = nonBannedArticles(allArticles);
   const noRepeatingArticles = removeRepeatingArticles(approvedArticles);
+  console.log(noRepeatingArticles)
   addArticlesToPage(noRepeatingArticles);
 }
-
 
 const removeRepeatingArticles = (articles) => {
   return articles.filter((article, i) => {
@@ -27,7 +27,17 @@ const nonBannedArticles = (articles) => {
   });
 }
 
+setupSelect = () => {
+  const sortSelect = document.getElementById('sort');
+  sortSelect.addEventListener('change', (e) => {
+    // freshStart();
+    getNews(e.target.value);
+  });
+}
+
+
 const setupPage = () => {
+  setupSelect();
   const articlesDiv = document.querySelector('#articles');
   articlesDiv.classList.add('container');
   const dateP = document.querySelector('#todays-date');
@@ -49,6 +59,7 @@ const createAnyElementWithContent = (elementType, parent, content = null, attrib
       createdElement.classList.add(name);
     });
   }
+  if(parent === null) console.log(elementType)
   parent.appendChild(createdElement);
   return createdElement;
 }
@@ -66,6 +77,7 @@ const setupArticle = () => {
 }
 
 const addArticlesToPage = (articles) => {
+  articlesDiv.innerHTML = '';
   articles.forEach((article, i) => {
     const { articleDiv, title, pictureAndContent, dateAndAuthor } = setupArticle();
 
@@ -84,7 +96,7 @@ const addArticlesToPage = (articles) => {
 
     articlesDiv.appendChild(articleDiv);
     const contentElement = document.querySelector(`#content${i}`);
-    createAnyElementWithContent('a', contentElement, 'More', { ['_blank']: 'target', [article.url]: 'href' });
+    // createAnyElementWithContent('a', contentElement, 'More', { ['_blank']: 'target', [article.url]: 'href' });
   });
 }
 
