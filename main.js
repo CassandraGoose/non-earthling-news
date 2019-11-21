@@ -1,16 +1,41 @@
-const getNews = async () => {
-  const response = await fetch('https://nameless-crag-96897.herokuapp.com/news');
+const getNews = async (sort = 'publishedAt') => {
+  const response = await fetch(`https://nameless-crag-96897.herokuapp.com/news?sort=${sort}`);
   const json = await response.json();
-  addArticlesToPage(nonBannedArticles(json.articles));
+  const page2response = await fetch(`https://nameless-crag-96897.herokuapp.com/news?sort=${sort}`);
+  const json2 = await page2response.json();
+  const allArticles = [...json.articles, ...json2.articles];
+  const approvedArticles = nonBannedArticles(allArticles);
+  const noRepeatingArticles = removeRepeatingArticles(approvedArticles);
+  addArticlesToPage(noRepeatingArticles);
+}
+
+const removeRepeatingArticles = (articles) => {
+  return articles.filter((article, i) => {
+    if (i < articles.length - 1) {
+      return article.title !== articles[i + 1].title;
+    }    
+  });
 }
 
 const nonBannedArticles = (articles) => {
   return articles.filter((article) => {
-    return bannedWords.some(word => !article.title.includes(word));
+    const lowercaseTitle = article.title.toLowerCase();
+    return bannedWords.every((word) => {
+      return !lowercaseTitle.includes(word)
+    });
   });
 }
 
+setupSelect = () => {
+  const sortSelect = document.getElementById('sort');
+  sortSelect.addEventListener('change', (e) => {
+    getNews(e.target.value);
+  });
+}
+
+
 const setupPage = () => {
+  setupSelect();
   const articlesDiv = document.querySelector('#articles');
   articlesDiv.classList.add('container');
   const dateP = document.querySelector('#todays-date');
@@ -32,6 +57,7 @@ const createAnyElementWithContent = (elementType, parent, content = null, attrib
       createdElement.classList.add(name);
     });
   }
+  if(parent === null) console.log(elementType)
   parent.appendChild(createdElement);
   return createdElement;
 }
@@ -49,6 +75,7 @@ const setupArticle = () => {
 }
 
 const addArticlesToPage = (articles) => {
+  articlesDiv.innerHTML = '';
   articles.forEach((article, i) => {
     const { articleDiv, title, pictureAndContent, dateAndAuthor } = setupArticle();
 
@@ -86,4 +113,4 @@ const altText = (url) => {
 
 const articles = getNews();
 const articlesDiv = setupPage();
-const bannedWords = ['sex', 'brothel'];
+const bannedWords = ['sex', 'brothel', 'movies', 'movie', 'album', 'episodes'];

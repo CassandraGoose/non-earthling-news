@@ -10,16 +10,24 @@
         <h1 class="custom-heading align-text-center">NON-EARTHLING NEWS</h1>
       </header>
       <hr/>
-      <div class="container">
-        <p class="custom-accent align-text-center" id="todays-date"></p>
+      <div class="row justify-content-around align-items-center" id="date-container">
+        <div>search</div>
+        <p class="custom-accent" id="todays-date"></p>
+        <div>
+          <label for="sort">Sort:</label>
+          <select id="sort">
+            <option value="publishedAt">Latest</option>
+            <option value="popularity">Popular</option>
+            <option value=relavancy>Relavant</option>
+          </select>
+        </div>
       </div>
-        <hr class="thicc-hr-title"/>
+      <hr class="thicc-hr-title"/>
       <hr/>
-      <section class="container">
+      <section class="container" id="section">
         <div id="articles">
         </div> 
       </section>
-
     </main>
     <script type="text/javascript" src="./main.js"></script>
   </body>
