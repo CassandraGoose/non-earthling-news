@@ -1,5 +1,5 @@
 const getNews = async () => {
-  const response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
+  const response = await fetch('https://nameless-crag-96897.herokuapp.com/news');
   const json = await response.json();
   addArticlesToPage(nonBannedArticles(json.articles));
 }
@@ -53,7 +53,7 @@ const addArticlesToPage = (articles) => {
     const { articleDiv, title, pictureAndContent, dateAndAuthor } = setupArticle();
 
     if (i % 2 === 0) {
-      createAnyElementWithContent('img', pictureAndContent, '', { [article.urlToImage]: 'src' }, ['col-sm', 'article-image']);
+      createAnyElementWithContent('img', pictureAndContent, '', { [article.urlToImage]: 'src', [altText(article.url)]: 'alt' }, ['col-sm', 'article-image']);
       createAnyElementWithContent('p', pictureAndContent, formatContentSnippet(article.content), { [`content${i}`]: 'id' }, ['col-sm', 'article-content']);
     } else {
       createAnyElementWithContent('p', pictureAndContent, formatContentSnippet(article.content), { [`content${i}`]: 'id' }, ['col-sm', 'article-content']);
@@ -78,6 +78,10 @@ const formatContentSnippet = (snippet) => {
 const formatDate = (date) => {
   const dateObj = new Date(date);
   return dateObj.toDateString();
+}
+
+const altText = (url) => {
+  return `Please see ${url} to get detailed information on this image. The API used does not provide alternate text.`;
 }
 
 const articles = getNews();
