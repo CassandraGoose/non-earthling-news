@@ -6,7 +6,6 @@ const getNews = async (sort = 'publishedAt') => {
   const allArticles = [...json.articles, ...json2.articles];
   const approvedArticles = nonBannedArticles(allArticles);
   const noRepeatingArticles = removeRepeatingArticles(approvedArticles);
-  console.log(noRepeatingArticles)
   addArticlesToPage(noRepeatingArticles);
 }
 
@@ -30,7 +29,6 @@ const nonBannedArticles = (articles) => {
 setupSelect = () => {
   const sortSelect = document.getElementById('sort');
   sortSelect.addEventListener('change', (e) => {
-    // freshStart();
     getNews(e.target.value);
   });
 }
@@ -96,7 +94,7 @@ const addArticlesToPage = (articles) => {
 
     articlesDiv.appendChild(articleDiv);
     const contentElement = document.querySelector(`#content${i}`);
-    // createAnyElementWithContent('a', contentElement, 'More', { ['_blank']: 'target', [article.url]: 'href' });
+    createAnyElementWithContent('a', contentElement, 'More', { ['_blank']: 'target', [article.url]: 'href' });
   });
 }
 
