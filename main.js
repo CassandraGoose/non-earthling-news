@@ -1,103 +1,85 @@
-async function getNews() {
+const getNews = async () => {
   const response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
   const json = await response.json();
-  addToPage(json.articles);
+  addArticlesToPage(nonBannedArticles(json.articles));
 }
 
-const articles = getNews()
-
-const articlesDiv = document.querySelector('#articles');
-articlesDiv.classList.add('container'); 
-const dateP = document.querySelector('#todays-date');
-dateP.textContent = formatDate(new Date())
-
-const setupArticle = () => {
-  const articleDiv = document.createElement('div');
-  const titleAndDetails = document.createElement('div');
-  titleAndDetails.classList.add('col');
-  const dateAndAuthor = document.createElement('div');
-  dateAndAuthor.classList.add('row', 'justify-content-between', 'custom-container-padding');
-  const pictureAndContent = document.createElement('div');
-  pictureAndContent.classList.add('row', 'custom-container-padding');
-  const topHR = document.createElement('hr');
-  titleAndDetails.appendChild(topHR);
-  titleAndDetails.appendChild(dateAndAuthor);
-  const bottomHR = document.createElement('hr');
-  titleAndDetails.appendChild(bottomHR);
-  articleDiv.appendChild(titleAndDetails);
-  articleDiv.appendChild(pictureAndContent);
-  return { articleDiv, titleAndDetails, pictureAndContent, dateAndAuthor };
-}
-
-function addToPage(articles) {
-  articles.forEach((article, i) => {
-    const { articleDiv, titleAndDetails, pictureAndContent, dateAndAuthor } = setupArticle();
-    
-    createTitle(article.title, titleAndDetails);
-    if (i % 2 === 0) {
-      createImage(article.urlToImage, pictureAndContent) ;
-      createContent(article.content, `content${i}`, pictureAndContent);
-    } else {
-      createContent(article.content, `content${i}`, pictureAndContent);
-      createImage(article.urlToImage, pictureAndContent) ;
-    }
-    createAndPopulateDetail('p', article.author, dateAndAuthor);
-    createAndPopulateDetail('p', formatDate(article.publishedAt), dateAndAuthor);
-    const hr = document.createElement('hr');
-    const lilHR = document.createElement('hr');
-    lilHR.classList.add('lil-hr')
-    hr.classList.add('thicc-hr');
-    articleDiv.appendChild(hr);
-    articleDiv.appendChild(lilHR)
-    articlesDiv.appendChild(articleDiv);
-    createMoreLink(article.url, `content${i}`);
+const nonBannedArticles = (articles) => {
+  return articles.filter((article) => {
+    return bannedWords.some(word => !article.title.includes(word));
   });
 }
 
-function createTitle(title, parent) {
-  const createdTitle = document.createElement('h2');
-  createdTitle.textContent = title;
-  parent.prepend(createdTitle);
+const setupPage = () => {
+  const articlesDiv = document.querySelector('#articles');
+  articlesDiv.classList.add('container');
+  const dateP = document.querySelector('#todays-date');
+  dateP.textContent = formatDate(new Date());
+  return articlesDiv;
 }
 
-const createImage = (url, parent) => {
-  const imageElement = document.createElement('img');
-  imageElement.src = url;
-  imageElement.style = "width: 500px; height: auto"
-  imageElement.classList.add('col-sm');
-  parent.appendChild(imageElement);
-}
-
-const createContent = (content, id, parent) => {
-  const createdContent = document.createElement('p');
-  createdContent.textContent = formatContentSnippet(content);
-  createdContent.classList.add('col-sm', 'article-content');
-  createdContent.setAttribute('id', id);
-  parent.appendChild(createdContent);
-}
-
-const createAndPopulateDetail = (element, content, parent) => {
-  const createdElement = document.createElement(element);
-  createdElement.textContent = content;
+const createAnyElementWithContent = (elementType, parent, content = null, attributes = null, classes = null) => {
+  const createdElement = document.createElement(elementType);
+  if (content) createdElement.textContent = content;
+  if (attributes) {
+    const keys = Object.keys(attributes);
+    keys.forEach((key) => {
+      createdElement.setAttribute(attributes[key], key);
+    });
+  }
+  if (classes) {
+    classes.forEach((name) => {
+      createdElement.classList.add(name);
+    });
+  }
   parent.appendChild(createdElement);
   return createdElement;
 }
 
-function createMoreLink(url, id) {
-  const createdLink = document.createElement('a');
-  createdLink.textContent = 'More';
-  createdLink.href = url;
-  createdLink.setAttribute('target', '_blank');
-  const contentElement = document.querySelector(`#${id}`);
-  contentElement.appendChild(createdLink);
-  return createdLink;
+const setupArticle = () => {
+  const articleDiv = document.createElement('div');
+  const titleAndDetails = createAnyElementWithContent('div', articleDiv, null, null, ['col']);
+  const title = createAnyElementWithContent('div', titleAndDetails);
+  const dateAndAuthor = createAnyElementWithContent('div', titleAndDetails, null, null, ['row', 'justify-content-between', 'custom-container-padding']);
+  createAnyElementWithContent('hr', titleAndDetails);
+  const pictureAndContent = createAnyElementWithContent('div', articleDiv, null, null, ['row', 'custom-container-padding']);
+  titleAndDetails.appendChild(dateAndAuthor);
+  createAnyElementWithContent('hr', titleAndDetails);
+  return { articleDiv, title, pictureAndContent, dateAndAuthor };
 }
 
-function formatContentSnippet(snippet) {
+const addArticlesToPage = (articles) => {
+  articles.forEach((article, i) => {
+    const { articleDiv, title, pictureAndContent, dateAndAuthor } = setupArticle();
+
+    if (i % 2 === 0) {
+      createAnyElementWithContent('img', pictureAndContent, '', { [article.urlToImage]: 'src' }, ['col-sm', 'article-image']);
+      createAnyElementWithContent('p', pictureAndContent, formatContentSnippet(article.content), { [`content${i}`]: 'id' }, ['col-sm', 'article-content']);
+    } else {
+      createAnyElementWithContent('p', pictureAndContent, formatContentSnippet(article.content), { [`content${i}`]: 'id' }, ['col-sm', 'article-content']);
+      createAnyElementWithContent('img', pictureAndContent, '', { [article.urlToImage]: 'src' }, ['col-sm', 'article-image']);
+    }
+    createAnyElementWithContent('h2', title, article.title);
+    createAnyElementWithContent('p', dateAndAuthor, article.author);
+    createAnyElementWithContent('p', dateAndAuthor, formatDate(article.publishedAt));
+    createAnyElementWithContent('hr', articleDiv, null, null, ['thicc-hr']);
+    createAnyElementWithContent('hr', articleDiv, null, null, ['lil-hr']);
+
+    articlesDiv.appendChild(articleDiv);
+    const contentElement = document.querySelector(`#content${i}`);
+    createAnyElementWithContent('a', contentElement, 'More', { ['_blank']: 'target', [article.url]: 'href' });
+  });
+}
+
+const formatContentSnippet = (snippet) => {
   return snippet.split('[')[0];
 }
 
-function formatDate(date) {
+const formatDate = (date) => {
   const dateObj = new Date(date);
   return dateObj.toDateString();
 }
+
+const articles = getNews();
+const articlesDiv = setupPage();
+const bannedWords = ['sex', 'brothel'];
