@@ -1,12 +1,29 @@
 const getNews = async () => {
-  const response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
+  const response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&sortBy=publishedAt&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
   const json = await response.json();
-  addArticlesToPage(nonBannedArticles(json.articles));
+  const page2response = await fetch('https://newsapi.org/v2/everything?q=ufo alien extraterrestrial&sortBy=publishedAt&page=2&apiKey=7488c28e0de9432cb5b471f1a27a39ac');
+  const json2 = await page2response.json();
+  const allArticles = [...json.articles, ...json2.articles];
+  const approvedArticles = nonBannedArticles(allArticles);
+  const noRepeatingArticles = removeRepeatingArticles(approvedArticles);
+  addArticlesToPage(noRepeatingArticles);
+}
+
+
+const removeRepeatingArticles = (articles) => {
+  return articles.filter((article, i) => {
+    if (i < articles.length - 1) {
+      return article.title !== articles[i + 1].title;
+    }    
+  });
 }
 
 const nonBannedArticles = (articles) => {
   return articles.filter((article) => {
-    return bannedWords.some(word => !article.title.includes(word));
+    const lowercaseTitle = article.title.toLowerCase();
+    return bannedWords.every((word) => {
+      return !lowercaseTitle.includes(word)
+    });
   });
 }
 
@@ -82,4 +99,4 @@ const formatDate = (date) => {
 
 const articles = getNews();
 const articlesDiv = setupPage();
-const bannedWords = ['sex', 'brothel'];
+const bannedWords = ['sex', 'brothel', 'movies', 'movie', 'album', 'episodes'];
