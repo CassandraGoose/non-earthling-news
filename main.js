@@ -61,8 +61,11 @@ const search = (term) => {
       || article.content.toLowerCase().match(regexTerm)
       || article.source.name.toLowerCase().match(regexTerm)
       || article.description.toLowerCase().match(regexTerm));
-  nonEarthlingArticles = searched;
-  addArticlesToPage()
+  if (searched.length === 0) noArticlesFound();
+  else {
+    nonEarthlingArticles = searched;
+    addArticlesToPage()
+  }
 }
 
 const setupFilters = () => {
@@ -116,6 +119,12 @@ const setupArticle = () => {
   titleAndDetails.appendChild(dateAndAuthor);
   createAnyElementWithContent('hr', titleAndDetails);
   return { articleDiv, title, pictureAndContent, dateAndAuthor };
+}
+
+const noArticlesFound = () => {
+  nonEarthlingArticles = [];
+  addArticlesToPage();
+  createAnyElementWithContent('h2', articlesDiv, 'No Articles Found.');
 }
 
 const addArticlesToPage = () => {
