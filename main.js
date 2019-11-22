@@ -41,6 +41,7 @@ const resetArticles = () => {
 
 const setupSelect = () => {
   const sortSelect = document.getElementById('sort');
+  sortSelect.classList.add(['custom-select', 'custom-select-sm'])
   sortSelect.addEventListener('change', (e) => {
     getNews(e.target.value);
   });
@@ -76,8 +77,9 @@ const setupFilters = () => {
   const filterContainer = document.querySelector('#filter-container');
   currentAvailableFilters.forEach((filter) => {
     const filterValue = filter == 'Daily Star' ? 'dailystar' : filter;
-    const button = createAnyElementWithContent('button', filterContainer, filter, { [filter]: 'id', [filterValue]: 'value' }, ['filter']);
+    const button = createAnyElementWithContent('button', filterContainer, filter, { [filter]: 'id', [filterValue]: 'value' }, ['filter', 'btn', 'btn-dark']);
     button.addEventListener('click', (e) => {
+      searchInput.value = "";
       search(e.target.value.toLowerCase());
     });
   });
