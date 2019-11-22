@@ -1,3 +1,7 @@
+let nonEarthlingArticles = [];
+let searchInput = document.getElementById('search');
+let allApprovedArticles = [];
+
 const getNews = async (sort = 'publishedAt') => {
   const response = await fetch(`https://nameless-crag-96897.herokuapp.com/news?sort=${sort}`);
   const json = await response.json();
@@ -5,8 +9,9 @@ const getNews = async (sort = 'publishedAt') => {
   const json2 = await page2response.json();
   const allArticles = [...json.articles, ...json2.articles];
   const approvedArticles = nonBannedArticles(allArticles);
-  const noRepeatingArticles = removeRepeatingArticles(approvedArticles);
-  addArticlesToPage(noRepeatingArticles);
+  allApprovedArticles = removeRepeatingArticles(approvedArticles);
+  nonEarthlingArticles = allApprovedArticles;
+  addArticlesToPage();
 }
 
 const removeRepeatingArticles = (articles) => {
@@ -26,16 +31,38 @@ const nonBannedArticles = (articles) => {
   });
 }
 
-setupSelect = () => {
+const resetArticles = () => {
+  nonEarthlingArticles = allApprovedArticles;
+  addArticlesToPage();
+}
+
+const setupSelect = () => {
   const sortSelect = document.getElementById('sort');
   sortSelect.addEventListener('change', (e) => {
     getNews(e.target.value);
   });
 }
 
+const setupSearch = () => {
+  const searchInput = document.getElementById('search');
+  searchInput.classList.add('search-input');
+  searchInput.addEventListener('keyup', (e) => {
+    if (searchInput.value.length === 0) resetArticles();
+    else search(searchInput.value);
+  });
+}
+
+const search = (term) => {
+  const regexTerm = new RegExp(term, "g")
+  const searched = nonEarthlingArticles
+    .filter(article => article.title.toLowerCase().match(regexTerm) || article.content.toLowerCase().match(regexTerm));
+  nonEarthlingArticles = searched;
+  addArticlesToPage()
+}
 
 const setupPage = () => {
   setupSelect();
+  setupSearch();
   const articlesDiv = document.querySelector('#articles');
   articlesDiv.classList.add('container');
   const dateP = document.querySelector('#todays-date');
@@ -74,9 +101,9 @@ const setupArticle = () => {
   return { articleDiv, title, pictureAndContent, dateAndAuthor };
 }
 
-const addArticlesToPage = (articles) => {
+const addArticlesToPage = () => {
   articlesDiv.innerHTML = '';
-  articles.forEach((article, i) => {
+  nonEarthlingArticles.forEach((article, i) => {
     const { articleDiv, title, pictureAndContent, dateAndAuthor } = setupArticle();
 
     if (i % 2 === 0) {

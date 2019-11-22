@@ -78,3 +78,7 @@ hr {
   width: 500px;
   height: auto;
 }
+
+.search-input {
+  width: 6rem;
+}
