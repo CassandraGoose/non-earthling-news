@@ -15,10 +15,13 @@ const getNews = async (sort = 'publishedAt') => {
 }
 
 const removeRepeatingArticles = (articles) => {
-  return articles.filter((article, i) => {
-    if (i < articles.length - 1) {
-      return article.title !== articles[i + 1].title;
-    }    
+  const nonRepeated = {};
+  return articles.filter((article) => {
+    if (!nonRepeated[article.title]) {
+      nonRepeated[article.title] = article.title;
+      return true;
+    }
+    if (nonRepeated[article.title]) return false;
   });
 }
 
