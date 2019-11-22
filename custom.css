@@ -8,6 +8,11 @@ hr {
   margin-bottom: 5px;
 }
 
+a {
+  color: #525252;
+  background-color: white;
+}
+
 .custom-main {
   margin-top: 5%;
 }

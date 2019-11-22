@@ -141,7 +141,7 @@ const addArticlesToPage = () => {
       createAnyElementWithContent('p', pictureAndContent, formatContentSnippet(article.content), { [`content${i}`]: 'id' }, ['col-sm', 'article-content']);
     } else {
       createAnyElementWithContent('p', pictureAndContent, formatContentSnippet(article.content), { [`content${i}`]: 'id' }, ['col-sm', 'article-content']);
-      createAnyElementWithContent('img', pictureAndContent, '', { [article.urlToImage]: 'src' }, ['col-sm', 'article-image']);
+      createAnyElementWithContent('img', pictureAndContent, '', { [article.urlToImage]: 'src', [altText(article.url)]: 'alt' }, ['col-sm', 'article-image']);
     }
     createAnyElementWithContent('h2', title, article.title);
     createAnyElementWithContent('p', dateAndAuthor, article.author);
