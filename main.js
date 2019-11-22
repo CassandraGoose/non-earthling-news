@@ -10,7 +10,7 @@ const getNews = async (sort = 'publishedAt') => {
   const allArticles = [...json.articles, ...json2.articles];
   const approvedArticles = nonBannedArticles(allArticles);
   allApprovedArticles = removeRepeatingArticles(approvedArticles);
-  nonEarthlingArticles = allApprovedArticles;
+  nonEarthlingArticles = allApprovedArticles;  
   addArticlesToPage();
 }
 
@@ -132,6 +132,7 @@ const noArticlesFound = () => {
 
 const addArticlesToPage = () => {
   articlesDiv.innerHTML = '';
+  articlesDiv.classList.remove('align-text-center');
   nonEarthlingArticles.forEach((article, i) => {
     const { articleDiv, title, pictureAndContent, dateAndAuthor } = setupArticle();
 

@@ -87,3 +87,8 @@ hr {
   margin-left: 5%;
   margin-right: 5%;
 }
+
+.spinner {
+  align-self: center;
+  margin-top: 4rem;
+}
