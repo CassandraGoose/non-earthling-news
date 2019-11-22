@@ -53,11 +53,28 @@ const setupSearch = () => {
 }
 
 const search = (term) => {
+  resetArticles();
   const regexTerm = new RegExp(term, "g")
   const searched = nonEarthlingArticles
-    .filter(article => article.title.toLowerCase().match(regexTerm) || article.content.toLowerCase().match(regexTerm));
+    .filter(article =>
+      article.title.toLowerCase().match(regexTerm)
+      || article.content.toLowerCase().match(regexTerm)
+      || article.source.name.toLowerCase().match(regexTerm)
+      || article.description.toLowerCase().match(regexTerm));
   nonEarthlingArticles = searched;
   addArticlesToPage()
+}
+
+const setupFilters = () => {
+  const currentAvailableFilters = ['Vice News', 'Gizmodo', 'Daily Star', 'NASA', 'Area 51'];
+  const filterContainer = document.querySelector('#filter-container');
+  currentAvailableFilters.forEach((filter) => {
+    const filterValue = filter == 'Daily Star' ? 'dailystar' : filter;
+    const button = createAnyElementWithContent('button', filterContainer, filter, { [filter]: 'id', [filterValue]: 'value' }, ['filter']);
+    button.addEventListener('click', (e) => {
+      search(e.target.value.toLowerCase());
+    });
+  });
 }
 
 const setupPage = () => {
@@ -67,6 +84,7 @@ const setupPage = () => {
   articlesDiv.classList.add('container');
   const dateP = document.querySelector('#todays-date');
   dateP.textContent = formatDate(new Date());
+  setupFilters();
   return articlesDiv;
 }
 
@@ -84,7 +102,6 @@ const createAnyElementWithContent = (elementType, parent, content = null, attrib
       createdElement.classList.add(name);
     });
   }
-  if(parent === null) console.log(elementType)
   parent.appendChild(createdElement);
   return createdElement;
 }

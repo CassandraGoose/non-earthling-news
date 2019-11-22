@@ -82,3 +82,8 @@ hr {
 .search-input {
   width: 6rem;
 }
+
+.filter {
+  margin-left: 5%;
+  margin-right: 5%;
+}
