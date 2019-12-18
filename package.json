@@ -1,0 +1,25 @@
+{
+  "name": "non-earthling-news",
+  "version": "1.0.0",
+  "description": "https://non-earthling-news.surge.sh/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CassandraGoose/non-earthling-news.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CassandraGoose/non-earthling-news/issues"
+  },
+  "homepage": "https://github.com/CassandraGoose/non-earthling-news#readme",
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}

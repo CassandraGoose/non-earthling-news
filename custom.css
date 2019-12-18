@@ -13,53 +13,58 @@ a {
   background-color: white;
 }
 
-.custom-main {
+.nen-main {
   margin-top: 5%;
 }
 
-.custom-heading {
+.nen-anchor {
+  text-decoration: none;
+  color: black;
+}
+
+.nen-anchor:hover {
+  text-decoration: none;
+  color: grey;
+}
+
+.nen-heading {
   font-family: 'Calistoga', cursive;
   font-size: 6rem;
 }
 
-.custom-accent {
+.nen-accent {
   font-family: 'PT Serif', serif;
   font-style: italic;
   font-size: 1.5rem;
 }
 
-.custom-sub-heading {
+.nen-sub-heading {
   font-size: 1.2rem;
 }
 
-.figure-caption {
+.nen-figure-caption {
   font-size: 0.8rem;
 }
 
-.align-text-center {
+.nen-align-text-center {
   text-align: center;
   vertical-align: middle;
 }
 
-.custom-container-padding {
+.nen-container-padding {
   padding-left: 15px;
   padding-right: 15px;
 }
 
-.article-content {
+.nen-article-content {
   font-size: 1.2rem;
 }
 
-.thicc-hr {
-  border: none;
-  height: 2px;
-  color: black;
-  background-color: darkgrey;
-  margin-bottom: 0;
+.nen-margin-top {
   margin-top: 5%;
 }
 
-.thicc-hr-title {
+.nen-hr-title {
   border: none;
   height: 2px;
   color: black;
@@ -67,33 +72,33 @@ a {
   margin-bottom: 0;
 }
 
-.lil-hr {
+.nen-lil-hr {
   margin-top: 5px;
   margin-bottom: 3%;
 }
 
-.custom-button-container {
+.nen-button-container {
   height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.article-image {
+.nen-article-image {
   width: 500px;
   height: auto;
 }
 
-.search-input {
+.nen-search-input {
   width: 6rem;
 }
 
-.filter {
+.nen-filter {
   margin-left: 5%;
   margin-right: 5%;
 }
 
-.spinner {
+.nen-spinner {
   align-self: center;
   margin-top: 4rem;
 }

@@ -1,5 +1,6 @@
 <html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Calistoga|PT+Sans|PT+Serif&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./custom.css">
@@ -8,12 +9,12 @@
   <body>
     <main>
       <header class="container">
-        <h1 class="custom-heading align-text-center">NON-EARTHLING NEWS</h1>
+        <a href="./index.html" class="nen-anchor"><h1 class="nen-heading nen-align-text-center">NON-EARTHLING NEWS</h1></a>
       </header>
       <hr/>
       <div class="row justify-content-around align-items-center" id="date-container">
-        <div><label for="search">Search:&nbsp;</label><input id="search" type="text" value="" /></div>
-        <p class="custom-accent" id="todays-date"></p>
+        <form><label for="search">Search:&nbsp;</label><input id="search" type="text" value="" /></form>
+        <p class="nen-accent" id="todays-date"></p>
         <div>
           <label for="sort">Sort:</label>
           <select id="sort">
@@ -26,12 +27,13 @@
       <hr/>
       <div class="row justify-content-center align-items-center" id="filter-container">
       </div>
-      <hr class="thicc-hr-title"/>
+      <hr class="nen-hr-title"/>
       <hr/>
       <section class="container" id="section">
-        <div id="articles" class="align-text-center">
-          <img class="spinner" src="./spinner.gif" alt="loading spinner gif"/>
+        <div id="articles" class="nen-align-text-center">
+          <img class="nen-spinner" src="./spinner.gif" alt="loading spinner gif"/>
         </div> 
+        <div id="no-articles"></div>
       </section>
     </main>
     <script type="text/javascript" src="./main.js"></script>
