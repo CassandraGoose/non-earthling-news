@@ -109,9 +109,9 @@ const addListenerToButton = (button) => {
         applyColorsToFilterButton(filterButton, defaultColor, selectedColor);
       });
       applyColorsToFilterButton(button, selectedColor, defaultColor);
+      setArticles(allApprovedArticles);
+      searchByTerm(currentFilter);
     }
-    setArticles(allApprovedArticles);
-    searchByTerm(currentFilter);
   });
 };
 

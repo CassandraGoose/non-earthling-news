@@ -2,6 +2,10 @@ https://non-earthling-news.surge.sh/
 
 ## NON-EARTHLING NEWS
 
+This is an example project for [Coding Garden](https://www.twitch.tv/codinggarden)'s Seedling School front end project. This project was built within the constraints listed [here](https://github.com/CodingGarden/seedling-school-01-frontend-project).
+
+Find my project description [here](ProjectDescription.md).
+
 ### If, for some reason, you feel the need to clutter your own computer with more code then you can run this with the following: 
 - clone it
 - cd into it
